@@ -1,16 +1,8 @@
 <template>
     <div class="container">
-        <h1>Comentarios</h1>
+    <h1>Comentarios</h1>
         <hr />
-        <div class="form-comments form-group">
-            <p>
-                <input placeholder="Nome" type="text" name="author" class="form-control" v-model="name"/>
-            </p>
-            <p>
-                <textarea placeholder=" Comentário" name="message" v-model="message"></textarea>
-            </p>
-            <button v-on:click="addComment" type="submit" class="btn btn-primary">Comentar</button>
-        </div>
+        <FormComment v-on:add-comment="addComment"></FormComment>
         <hr />
         <div class="list-group">
             <div class="list-group-item" v-for="(comment, index) in allComments" :key="comment.id">
@@ -25,31 +17,21 @@
 </template>
 
 <script>
+    import FormComment from './FormComment.vue';
     export default {
+        components: {
+            FormComment
+        },
+
         data() {
             return {
                 comments: [],
-                name: '',
-                message: '',
-
-
             }
         }, 
         methods: {
-            addComment() {
-                if (this.message.trim() === '') {
-                    console.log("Os dois campos sao obrigatorios!");
-                    return;
-                }
-
-
-                this.comments.push({
-                        name: this.name,
-                        message: this.message
-                    });
-                        
-                this.name = '';
-                this.message = '';
+            
+            addComment(comment) {
+                this.comments.push(comment)
             },
 
             removeComment(index) {
